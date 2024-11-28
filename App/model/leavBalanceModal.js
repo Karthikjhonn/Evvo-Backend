@@ -8,9 +8,9 @@ const leaveBalanceSchema = new mongoose.Schema({
     unique: true,
   },
   sickLeave: { type: Number, default: 10 },
-  casualLeave: { type: Number, default: 8 },
-  earnedLeave: { type: Number, default: 0 },
-  totalLeave: { type: Number, default: 18 },
+  casualLeave: { type: Number, default: 10 },
+  earnedLeave: { type: Number, default: 5 },
+  totalLeave: { type: Number, default: 25 },
 });
 
 const leaveBalance = mongoose.model("LeaveBalance", leaveBalanceSchema);
