@@ -4,7 +4,10 @@ const connectDB = require("./database/db");
 const Routes = require("./routes/routes");
 const { errorHandler } = require("./middleware/ErrorHandler");
 const app = express();
+const cors = require('cors');
 
+
+app.use(cors());
 app.use(express.json());
 
 connectDB();

@@ -5,6 +5,7 @@ const leaveBalance = require("../../model/leavBalanceModal");
 const LeaveHistory = require("../../model/leaveHistoryModel");
 
 const createUser = async (req, res, next) => {
+  const JWT_SECRET = process.env.JWT_SECRET;
   try {
     const { name, email, password } = req.body;
 
@@ -18,12 +19,17 @@ const createUser = async (req, res, next) => {
       email,
       password: hashedPassword,
     });
+    const token = jwt.sign({ userId: user._id, email: email }, JWT_SECRET, {
+      expiresIn: "30d",
+    });
     const userLeaveBalance = await leaveBalance.create({
       userId: user._id,
     });
-    res
-      .status(200)
-      .json({ message: "User created successfully", user, userLeaveBalance });
+    res.status(200).json({
+      message: "User created successfully",
+      userLeaveBalance,
+      token,
+    });
   } catch (err) {
     if (err.code === 11000) {
       err.message = "User  already exists";
@@ -83,7 +89,7 @@ const getUser = async (req, res, next) => {
     const { userId } = req.params;
 
     const user = await userModel.findById(userId);
-    const userLeaveHistory = await LeaveHistory.find({userId})
+    const userLeaveHistory = await LeaveHistory.find({ userId });
     if (!user) {
       return res.status(404).json({ message: "User not found." });
     }
@@ -108,7 +114,7 @@ const getUser = async (req, res, next) => {
           earnedLeave: userLeaveBalance.earnedLeave,
           totalLeave: userLeaveBalance.totalLeave,
         },
-        LeaveHistory:userLeaveHistory
+        LeaveHistory: userLeaveHistory,
       },
     });
   } catch (err) {
