@@ -10,7 +10,7 @@ const cookieParser = require("cookie-parser");
 connectDB();
 app.use(
   cors({
-    origin: "https://evvotech.netlify.app",
+    origin: ["https://evvotech.netlify.app","http://localhost:3000/"],
     credentials: true,
   })
 );

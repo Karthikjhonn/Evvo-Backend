@@ -2,10 +2,13 @@ const leaveBalanceModel = require("../../model/leavBalanceModal");
 const LeaveHistory = require("../../model/leaveHistoryModel");
 const leaveRequest = async (req, res, next) => {
   try {
-    const { userId, leaveType, comments, startDate, endDate } = req.body;
-
-    if (!userId || !leaveType || !startDate || !endDate) {
-      return res.status(400).json({ message: "All fields are required." });
+    const {  leaveType, comments, startDate, endDate } = req.body;
+    const userId  = req?.user?.userId;
+    if(!userId){
+      return res.status(400).json({ message: "User not found" });
+    }
+    if (!leaveType || !startDate || !endDate) {
+      return res.status(400).json({ message: "All fields are required" });
     }
 
     const start = new Date(startDate);
@@ -78,7 +81,11 @@ const leaveRequest = async (req, res, next) => {
 
 const deleteLeaveRequest = async (req, res, next) => {
   try {
-    const { userId, requestId } = req.body;
+    const userId  = req?.user?.userId;
+    // if(!userId){
+    //   return res.status(400).json({ message: "User not found" });
+    // }
+    const {  requestId } = req.body;
     console.log(userId, requestId);
     if (!userId || !requestId) {
       return res.status(400).json({ message: "User and request id required" });
