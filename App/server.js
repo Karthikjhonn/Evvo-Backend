@@ -4,27 +4,30 @@ const connectDB = require("./database/db");
 const Routes = require("./routes/routes");
 const { errorHandler } = require("./middleware/ErrorHandler");
 const app = express();
-const cors = require('cors');
+const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
 connectDB();
-app.use(cors({
-  origin: process.env.CLIENT_URL || "https://evvotech.netlify.app", 
-  // origin: "http://localhost:3000", 
-  credentials: true, 
-}));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "https://evvotech.netlify.app",
+      "https://evvo-backend.onrender.com",
+    ],
+    credentials: true,
+  })
+);
 app.use(express.json());
-app.use(cookieParser())
-
-
+app.use(cookieParser());
 
 app.get("/", (req, res) => {
   res.send("Evvo Backend Server is running...");
 });
 
-app.use("/api/v1/",Routes)
+app.use("/api/v1/", Routes);
 app.use(errorHandler);
-  
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
