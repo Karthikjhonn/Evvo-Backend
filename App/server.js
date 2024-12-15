@@ -5,12 +5,18 @@ const Routes = require("./routes/routes");
 const { errorHandler } = require("./middleware/ErrorHandler");
 const app = express();
 const cors = require('cors');
-
-
-app.use(cors());
-app.use(express.json());
+const cookieParser = require("cookie-parser");
 
 connectDB();
+app.use(cors({
+  origin: process.env.CLIENT_URL || "https://evvotech.netlify.app/", 
+  // origin: "http://localhost:3000", 
+  credentials: true, 
+}));
+app.use(express.json());
+app.use(cookieParser())
+
+
 
 app.get("/", (req, res) => {
   res.send("Evvo Backend Server is running...");

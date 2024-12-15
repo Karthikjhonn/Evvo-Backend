@@ -20,7 +20,7 @@ const createUser = async (req, res, next) => {
       password: hashedPassword,
     });
     const token = jwt.sign({ userId: user._id, email: email }, JWT_SECRET, {
-      expiresIn: "30d",
+      expiresIn: "1d",
     });
     const userLeaveBalance = await leaveBalance.create({
       userId: user._id,
@@ -65,7 +65,7 @@ const loginUser = async (req, res, next) => {
     const token = jwt.sign(
       { userId: getUserDetails._id, email: getUserDetails.email },
       JWT_SECRET,
-      { expiresIn: "30d" }
+      { expiresIn: "1d" }
     );
 
     res.status(200).json({
@@ -84,9 +84,8 @@ const loginUser = async (req, res, next) => {
 
 const getUser = async (req, res, next) => {
   try {
-    console.log(req);
-    console.log(req.params);
-    const { userId } = req.params;
+    console.log(req?.user?.userId);
+    const userId  = req?.user?.userId;
 
     const user = await userModel.findById(userId);
     const userLeaveHistory = await LeaveHistory.find({ userId });
