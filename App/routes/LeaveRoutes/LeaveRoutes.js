@@ -1,8 +1,9 @@
 const express = require("express");
 const { leaveRequest,deleteLeaveRequest } = require("../../controller/Leaves/LeaveController");
+const isAuth = require("../../middleware/Auth");
 const router = express.Router();
 
-router.post('/',leaveRequest)
-router.delete("/delete",deleteLeaveRequest)
+router.post('/',isAuth,leaveRequest)
+router.delete("/delete",isAuth, deleteLeaveRequest)
 
 module.exports = router;
