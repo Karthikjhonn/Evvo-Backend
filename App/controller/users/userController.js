@@ -25,6 +25,11 @@ const createUser = async (req, res, next) => {
     const userLeaveBalance = await leaveBalance.create({
       userId: user._id,
     });
+    res.cookie("token", token, {
+      httpOnly: true,  
+      secure: true,    
+      sameSite: "None", 
+    });
     res.status(200).json({
       message: "User created successfully",
       userLeaveBalance,
@@ -67,7 +72,11 @@ const loginUser = async (req, res, next) => {
       JWT_SECRET,
       { expiresIn: "1d" }
     );
-
+    res.cookie("token", token, {
+      httpOnly: true,  
+      secure: true,    
+      sameSite: "None", 
+    });
     res.status(200).json({
       message: "Login successful.",
       user: {
