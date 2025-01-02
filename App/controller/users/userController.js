@@ -26,9 +26,11 @@ const createUser = async (req, res, next) => {
       userId: user._id,
     });
     res.cookie("token", token, {
-      httpOnly: true,  
-      secure: true,    
-      sameSite: "None", 
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+      domain: "evvo-backend.onrender.com",
+      path: "/",
     });
     res.status(200).json({
       message: "User created successfully",
@@ -73,9 +75,11 @@ const loginUser = async (req, res, next) => {
       { expiresIn: "1d" }
     );
     res.cookie("token", token, {
-      httpOnly: true,  
-      secure: true,    
-      sameSite: "None", 
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+      domain: "evvo-backend.onrender.com",
+      path: "/",
     });
     res.status(200).json({
       message: "Login successful.",
@@ -94,7 +98,7 @@ const loginUser = async (req, res, next) => {
 const getUser = async (req, res, next) => {
   try {
     console.log(req?.user?.userId);
-    const userId  = req?.user?.userId;
+    const userId = req?.user?.userId;
 
     const user = await userModel.findById(userId);
     const userLeaveHistory = await LeaveHistory.find({ userId });
