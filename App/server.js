@@ -8,12 +8,22 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
 connectDB();
-app.use(
-  cors({
-    origin: "https://evvotech.netlify.app",
-    credentials: true,
-  })
-);
+app.use(cors({
+  origin: "https://evvotech.netlify.app", 
+  credentials: true, 
+}));
+
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "https://evvotech.netlify.app"); 
+  res.setHeader("Access-Control-Allow-Credentials", "true");  
+  res.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");  
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, OPTIONS"
+  ); 
+  next();
+});
+
 app.use(express.json());
 app.use(cookieParser());
 
