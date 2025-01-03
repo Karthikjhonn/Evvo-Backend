@@ -29,7 +29,6 @@ const createUser = async (req, res, next) => {
       httpOnly: true,
       secure: true,
       sameSite: "None",
-      domain: "evvo-backend.onrender.com",
       path: "/",
     });
     res.status(200).json({
@@ -78,7 +77,6 @@ const loginUser = async (req, res, next) => {
       httpOnly: true,
       secure: true,
       sameSite: "None",
-      domain: "evvo-backend.onrender.com",
       path: "/",
     });
     res.status(200).json({
